@@ -184,7 +184,7 @@ Transform:
   m_GameObject: {fileID: 5891447653197574752}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.10177673, y: 0.15462524, z: 0.18106}
+  m_LocalScale: {x: 0.10177673, y: 0.15462524, z: 0}
   m_Children: []
   m_Father: {fileID: 5891447653454364476}
   m_RootOrder: 1
@@ -335,9 +335,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPlayer1Owner: 0
   isDragging: 0
-  isAvailableToBePlayed: 0
   shouldBeScaledDown: 0
   hasCursorExitedCardTrigger: 0
+  basePositionCard: {x: 0, y: 0, z: 0}
+  scaledPositionCard: {x: 0, y: 0, z: 0}
 --- !u!1 &5891447653763967905
 GameObject:
   m_ObjectHideFlags: 0

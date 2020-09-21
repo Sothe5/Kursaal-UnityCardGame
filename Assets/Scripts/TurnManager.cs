@@ -51,52 +51,63 @@ public class TurnManager : MonoBehaviour
         */
     }
 
+    void Update()
+    {
+        Debug.Log(StateMachine.currentState);
+    }
 
-    public void Player1PlayACard(Card card)
+
+    public void Player1PlayACard(Card card, Vector3 location)
     {
         aPlayerPassed = false;
         passTurn1.SetActive(false);
         passTurn2.SetActive(false);
-        player1Hand.PlayCard(card);
+        player1Hand.PlayCard(card, location);
         isPlayer1Turn = !isPlayer1Turn;
         UpdatePriority();
     }
 
     public void Player1PassPriority()
     {
-        isPlayer1Turn = !isPlayer1Turn;
-        passTurn1.SetActive(true);
-        if(aPlayerPassed)
+        if(StateMachine.currentState == StateMachine.State.Base)
         {
-            EndTurn();
-        }else
-        {
-            aPlayerPassed = true;
-            UpdatePriority();
-        } 
+            isPlayer1Turn = !isPlayer1Turn;
+            passTurn1.SetActive(true);
+            if(aPlayerPassed)
+            {
+                EndTurn();
+            }else
+            {
+                aPlayerPassed = true;
+                UpdatePriority();
+            } 
+        }
     }
 
-    public void Player2PlayACard(Card card)
+    public void Player2PlayACard(Card card, Vector3 location)
     {
         aPlayerPassed = false;
         passTurn1.SetActive(false);
         passTurn2.SetActive(false);
-        player2Hand.PlayCard(card);
+        player2Hand.PlayCard(card, location);
         isPlayer1Turn = !isPlayer1Turn;
         UpdatePriority();
     }
 
     public void Player2PassPriority()
     {
-        isPlayer1Turn = !isPlayer1Turn;
-        passTurn2.SetActive(true);
-        if(aPlayerPassed)
+        if(StateMachine.currentState == StateMachine.State.Base)
         {
-            EndTurn();
-        }else
-        {
-            aPlayerPassed = true;
-            UpdatePriority();
+            isPlayer1Turn = !isPlayer1Turn;
+            passTurn2.SetActive(true);
+            if(aPlayerPassed)
+            {
+                EndTurn();
+            }else
+            {
+                aPlayerPassed = true;
+                UpdatePriority();
+            }
         }
     }
 

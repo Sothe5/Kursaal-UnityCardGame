@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class Card : MonoBehaviour
 {
+    public enum Type {RequiredLocation, NothingRequired};
     public bool isPlayer1Owner;
-
     public bool isDragging;
-    public bool isAvailableToBePlayed;
     public bool shouldBeScaledDown;
     public bool hasCursorExitedCardTrigger;
 
@@ -16,11 +15,18 @@ public class Card : MonoBehaviour
     private int orderInLayerScale3;
     private int orderInLayerScale4;
 
+    public Vector3 basePositionCard;
+    public Vector3 basePositionCardKeepZ;
+    public Vector3 scaledPositionCard;
 
+    public Type type;
 
     public void realStart()
     {
         this.GetComponentsInChildren<SpriteRenderer>()[0].enabled = false;
+        basePositionCard = transform.position;
+        basePositionCardKeepZ = transform.position + new Vector3(0,0,-0.1f);
+        scaledPositionCard = isPlayer1Owner ? transform.position + new Vector3(0,1,-0.1f) : transform.position + new Vector3(0,-1,-0.1f);
     }
 
     public void realUpdate()
@@ -37,92 +43,71 @@ public class Card : MonoBehaviour
 
     public void realOnMouseDown()
     {
-         bool ok = true;
-        foreach(Card a in this.transform.root.GetComponentsInChildren<Hand>()[0].cards)
+        if(Input.GetMouseButtonDown(0) && !(isPlayer1Owner ^ TurnManager.isPlayer1Turn) && StateMachine.currentState == StateMachine.State.Base)
         {
-            if(a.isDragging)
-            {
-                ok = false;
-            }
-        }
-    
-        foreach(Card a in this.transform.root.GetComponentsInChildren<Hand>()[1].cards)
-        {
-            if(a.isDragging)
-            {
-                ok = false;
-            }
-        }
-
-        if(!(isPlayer1Owner ^ TurnManager.isPlayer1Turn) && ok)
-        {
-            isDragging = true;
             this.gameObject.GetComponentInParent<Hand>().cardBeingDragged = this;
-            isAvailableToBePlayed = false;
+            StateMachine.currentState = StateMachine.State.DraggingCard;
+            isDragging = true;
             cardScaleDown(false);
+            //Debug.Log("mouse down");
         }
     }
 
     public void realOnMouseUp()
     {
-        if(!(isPlayer1Owner ^ TurnManager.isPlayer1Turn) && isDragging && this.gameObject.GetComponentInParent<Hand>().cardBeingDragged == this)
+        if(Input.GetMouseButtonUp(0) && !(isPlayer1Owner ^ TurnManager.isPlayer1Turn) && StateMachine.currentState == StateMachine.State.DraggingCard)
         {
-            isAvailableToBePlayed = true;
-
+            this.gameObject.GetComponentInParent<Hand>().cardBeingDragged.isDragging = false;
             if(!this.GetComponentsInChildren<SpriteRenderer>()[0].enabled)
             {
                 this.gameObject.GetComponentInParent<Hand>().SetTheNewPositionsOfCards();
-                isAvailableToBePlayed = false;
-            }
+                StateMachine.currentState = StateMachine.State.Base;  
 
-            if(!hasCursorExitedCardTrigger)
-            {
-               cardScaleUp();
+                if(!hasCursorExitedCardTrigger)
+                {
+                this.gameObject.GetComponentInParent<Hand>().cardBeingDragged.cardScaleUp();
+                }     
             }
-            isDragging = false;
+            else
+            {
+                StateMachine.currentState = StateMachine.State.PlayingCard;
+            }
+            //Debug.Log("mouse up");
         }
     }
 
     public void realOnMouseOver()
     {
-        if(Input.GetMouseButtonDown(1) && isDragging)
+        if(Input.GetMouseButtonDown(1) && StateMachine.currentState == StateMachine.State.DraggingCard)
         {
-            isDragging = false;
-            isAvailableToBePlayed = false;
-            this.gameObject.GetComponentInParent<Hand>().SetTheNewPositionsOfCards();      
+            this.gameObject.GetComponentInParent<Hand>().cardBeingDragged.isDragging = false;
+            StateMachine.currentState = StateMachine.State.Base;
+            this.gameObject.GetComponentInParent<Hand>().SetTheNewPositionsOfCards();
+
+            if(!hasCursorExitedCardTrigger)
+            {
+                cardScaleUp();
+            }
+            //Debug.Log("rightClick");
         }
     }
 
     public void realOnMouseEnter()
     {
         hasCursorExitedCardTrigger = false;
-                 bool ok = true;
-        foreach(Card a in this.transform.root.GetComponentsInChildren<Hand>()[0].cards)
+        if(StateMachine.currentState == StateMachine.State.Base)
         {
-            if(a.isDragging)
-            {
-                ok = false;
-            }
-        }
-    
-        foreach(Card a in this.transform.root.GetComponentsInChildren<Hand>()[1].cards)
-        {
-            if(a.isDragging)
-            {
-                ok = false;
-            }
-        }
-        if(ok)
-        {
+            //Debug.Log("MouseEnter");
             cardScaleUp();
         }
     }
 
     public void realOnMouseExit()
-    {
+    {   
         hasCursorExitedCardTrigger = true;
-        if(!isDragging && shouldBeScaledDown)
+        if(StateMachine.currentState == StateMachine.State.Base && shouldBeScaledDown)
         {
+            //Debug.Log("MouseExited");
             cardScaleDown(true);
         }
     }
@@ -130,8 +115,7 @@ public class Card : MonoBehaviour
     private void cardScaleUp()
     {
         shouldBeScaledDown = true;
-        transform.localScale *= 1.3f;
-        transform.position += isPlayer1Owner ? new Vector3(0,1,0) : new Vector3(0,-1,0);
+        transform.position = scaledPositionCard;
         
         orderInLayerScale1 = GetComponentsInChildren<SpriteRenderer>()[0].sortingOrder;
         orderInLayerScale2 = GetComponentsInChildren<SpriteRenderer>()[1].sortingOrder;
@@ -147,11 +131,11 @@ public class Card : MonoBehaviour
     private void cardScaleDown(bool shouldKeepOrderInlayer)
     {
         shouldBeScaledDown = false;
-        transform.localScale /= 1.3f;
-        transform.position -= isPlayer1Owner ? new Vector3(0,1,0) : new Vector3(0,-1,0);
+        transform.position = basePositionCard;
 
         if(shouldKeepOrderInlayer)
         {
+            transform.position = basePositionCardKeepZ;
             GetComponentsInChildren<SpriteRenderer>()[0].sortingOrder = orderInLayerScale1;
             GetComponentsInChildren<SpriteRenderer>()[1].sortingOrder = orderInLayerScale2;
             GetComponentsInChildren<SpriteRenderer>()[2].sortingOrder = orderInLayerScale3;
@@ -160,7 +144,7 @@ public class Card : MonoBehaviour
     }
     
 
-    public virtual void Effect()
+    public virtual void Effect(Vector3 location)
     {
         
     }

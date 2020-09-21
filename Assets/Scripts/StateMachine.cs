@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class StateMachine : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public enum State {Base, DraggingCard, PlayingCard, SelectingTargetSummoning, ReadyToPlayCard, Simulating};
+
+    public static State currentState;
+
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        currentState = State.Base;
     }
 }

@@ -8,6 +8,7 @@ public class CubeCard : Card
     void Start()
     {
         realStart();
+        type = Type.RequiredLocation;
     }
 
     void FixedUpdate()
@@ -40,7 +41,7 @@ public class CubeCard : Card
        realOnMouseExit();
     }
 
-   public override void Effect()
+   public override void Effect(Vector3 location)
     {
         Debug.Log("p");
     }
