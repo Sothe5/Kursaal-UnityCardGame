@@ -14,8 +14,12 @@ public class GridBoard : MonoBehaviour
 
     void Start()
     {
-        float xOffset = 0.47f;
-        float yOffset = -0.307f;
+        float xInitialOffset = 0.455f;
+        float yInitialOffset = -0.307f;
+
+        float xOffset = 0.8895f;
+        float yOffset = -0.578f;
+
 
         grid = new CellNode[gridHeight][];
         for(int i = 0; i < gridHeight; i++)
@@ -23,8 +27,7 @@ public class GridBoard : MonoBehaviour
             grid[i] = new CellNode[gridWidth];
             for(int j = 0; j < gridWidth; j++)
             {
-                grid[i][j] = (Instantiate(cellPrefab, new Vector3(transform.position.x + xOffset*i+1, transform.position.y + yOffset*j+1, transform.position.z), transform.rotation, transform) as GameObject).GetComponent<CellNode>();
-                grid[i][j].transform.position = new Vector3(transform.position.x + xOffset + 0.88f*j , transform.position.y + yOffset , transform.position.z);
+                grid[i][j] = (Instantiate(cellPrefab, new Vector3(transform.position.x + xInitialOffset + xOffset*j , transform.position.y + yInitialOffset + yOffset* i, transform.position.z-0.00001f), transform.rotation, transform) as GameObject).GetComponent<CellNode>();
             }
         }
     }

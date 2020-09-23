@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CircleCard : Card
+public class MoveCard : Card
 {
-    void Start()
+     void Start()
     {
         realStart();
         type = Type.RequiredLocation;
-        isPermanent = false;
+        isPermanent = true;
     }
 
     void FixedUpdate()
@@ -41,9 +41,13 @@ public class CircleCard : Card
        realOnMouseExit();
     }
 
-    public override void Effect(Vector3 location)
+   public override void Effect(Vector3 location)
     {
-        Debug.Log("s");
+        // seguramente necesitaran modificar board trigger para tener un nuevo estado de la maquina para volver a seleccionar localizacion. o volver a targetsummoning
+
+
+
+       //model = Instantiate(cubeModel, new Vector3(location.x, location.y, location.z -0.3f), FindObjectOfType<GridBoard>().transform.rotation, FindObjectOfType<GridBoard>().transform) as GameObject;
     }
 
 }

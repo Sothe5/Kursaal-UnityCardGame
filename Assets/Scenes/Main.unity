@@ -1157,12 +1157,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1228096543}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.2500947, y: -1.2100207, z: 0}
+  m_LocalScale: {x: 0.28126183, y: 0.43215024, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_Father: {fileID: 1294020334}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1228096545
 BoxCollider2D:
@@ -1203,6 +1203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   idPlayer1: 1
+  waitingPosition: {x: 0, y: 0, z: 0}
   location: {x: 0, y: 0, z: 0}
 --- !u!1 &1294020332
 GameObject:
@@ -1280,9 +1281,11 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -8, y: 2.8, z: 0}
   m_LocalScale: {x: 3.5554063, y: 2.3140101, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1228096544}
+  - {fileID: 1649917493}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1294020335
 MonoBehaviour:
@@ -1410,6 +1413,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   idPlayer1: 0
+  waitingPosition: {x: 0, y: 0, z: 0}
   location: {x: 0, y: 0, z: 0}
 --- !u!61 &1649917492
 BoxCollider2D:
@@ -1444,12 +1448,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1649917490}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.2500947, y: -1.2100207, z: 0}
+  m_LocalScale: {x: 0.28126183, y: 0.43215024, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_Father: {fileID: 1294020334}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1687258581
 GameObject:
@@ -1659,6 +1663,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dc1ecef43f81d14da0d3565e0b48eac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drawCardPrefab: {fileID: 4590339079507963748, guid: 4c95a842fcc989c45aaba657f6e78b37,
+    type: 3}
+  changeDirectionCardPrefab: {fileID: 5948550094791891726, guid: 39b19f5d083c2bb408d651386523301c,
+    type: 3}
+  moveCardPrefab: {fileID: 4067495900664134064, guid: 896069f62e3f1e34cbedf1faf521d52f,
+    type: 3}
   cubeCardPrefab: {fileID: 5891447653454364479, guid: 3e0a7f176d4e97c43bc8bc519e911ece,
     type: 3}
   circleCardPrefab: {fileID: 5088957143379826296, guid: e5eb6e18f6ba43145a6ab44867203482,

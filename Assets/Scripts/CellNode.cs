@@ -6,17 +6,27 @@ public class CellNode : MonoBehaviour
 {
     public void OnMouseEnter()
     {
-        GetComponent<SpriteRenderer>().enabled = true;
+        if(StateMachine.currentState == StateMachine.State.SelectingTargetSummoning)
+        {
+            GetComponent<SpriteRenderer>().enabled = true;
+        }
     }
 
     public void OnMouseExit()
     {
-       GetComponent<SpriteRenderer>().enabled = false;
+       if(StateMachine.currentState == StateMachine.State.SelectingTargetSummoning)
+        {
+            GetComponent<SpriteRenderer>().enabled = false;
+        }
     }
 
     void OnMouseDown()
     {
-       GetComponentInParent<GridBoard>().SetLocation(transform.position);
-       // statemachine readytoplay
+        if(StateMachine.currentState == StateMachine.State.SelectingTargetSummoning)
+        {
+            GetComponentInParent<GridBoard>().SetLocation(transform.position);
+            GetComponent<SpriteRenderer>().enabled = false;
+            StateMachine.currentState = StateMachine.State.ReadyToPlayCard;
+        }
     }
 }

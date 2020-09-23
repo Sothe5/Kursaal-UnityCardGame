@@ -27,15 +27,13 @@ public class Hand : MonoBehaviour
 
     public void PlayCard(Card card, Vector3 location)
     {
-        
-            card.Effect(location);
+        card.Effect(location);
+        if(!card.isPermanent)
+        {
             cards.Remove(card);
             Destroy(card.gameObject);
-            SetTheNewPositionsOfCards();
-        
-        // card.effect()
-        // board.addcard...
-        //TODO do the effect of the card (called it)
+        }
+        SetTheNewPositionsOfCards();
     }
 
     public void SetTheNewPositionsOfCards()

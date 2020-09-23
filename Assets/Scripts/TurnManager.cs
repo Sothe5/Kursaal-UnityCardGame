@@ -13,8 +13,12 @@ public class TurnManager : MonoBehaviour
      bool turnRegister;
 
 
+    public GameObject drawCardPrefab;           // Can be changed by FindObjectOfType<>();
+    public GameObject changeDirectionCardPrefab;
+    public GameObject moveCardPrefab;
     public GameObject cubeCardPrefab;
     public GameObject circleCardPrefab;
+
 
     public Button passTurnButton1;
     public Button passTurnButton2;
@@ -39,16 +43,7 @@ public class TurnManager : MonoBehaviour
         isPlayer1Turn = turnRegister;
         UpdatePriority();
 
-      /*    Esto se tiene que ejecutar despues de que todos esten inicializados
-        if(isPlayer1Turn)
-        {
-            StartTurnPlayer1();
-        }
-        else
-        {
-            StartTurnPlayer2();
-        }
-        */
+        SetUpStartHandsCards();
     }
 
     void Update()
@@ -65,6 +60,7 @@ public class TurnManager : MonoBehaviour
         player1Hand.PlayCard(card, location);
         isPlayer1Turn = !isPlayer1Turn;
         UpdatePriority();
+        StateMachine.currentState = StateMachine.State.Base;
     }
 
     public void Player1PassPriority()
@@ -92,6 +88,7 @@ public class TurnManager : MonoBehaviour
         player2Hand.PlayCard(card, location);
         isPlayer1Turn = !isPlayer1Turn;
         UpdatePriority();
+        StateMachine.currentState = StateMachine.State.Base;
     }
 
     public void Player2PassPriority()
@@ -142,9 +139,8 @@ public class TurnManager : MonoBehaviour
 
     void StartTurnPlayer1()
     {
-        //Get card from the deck and use it in the addCard method.
+        // se pone el mana y poco mas.
 
-        //TODO
         if(!player1Hand.isMaximumHandSize())
         {
             Card card = (Instantiate(cubeCardPrefab, player1Hand.transform.position, player1Hand.transform.rotation, player1Hand.transform) as GameObject).GetComponent<CubeCard>();
@@ -162,6 +158,33 @@ public class TurnManager : MonoBehaviour
             card.isPlayer1Owner = false;
             player2Hand.AddCard(card);
         }
+    }
+
+    void SetUpStartHandsCards()
+    {
+        Card card = (Instantiate(drawCardPrefab, player1Hand.transform.position, player1Hand.transform.rotation, player1Hand.transform) as GameObject).GetComponent<DrawCard>();
+        card.isPlayer1Owner = true;
+        player1Hand.AddCard(card);
+
+        card = (Instantiate(changeDirectionCardPrefab, player1Hand.transform.position, player1Hand.transform.rotation, player1Hand.transform) as GameObject).GetComponent<ChangeDirectionCard>();
+        card.isPlayer1Owner = true;
+        player1Hand.AddCard(card);
+
+        card = (Instantiate(moveCardPrefab, player1Hand.transform.position, player1Hand.transform.rotation, player1Hand.transform) as GameObject).GetComponent<MoveCard>();
+        card.isPlayer1Owner = true;
+        player1Hand.AddCard(card);
+
+        card = (Instantiate(drawCardPrefab, player2Hand.transform.position, player2Hand.transform.rotation, player2Hand.transform) as GameObject).GetComponent<DrawCard>();
+        card.isPlayer1Owner = false;
+        player2Hand.AddCard(card);
+
+        card = (Instantiate(changeDirectionCardPrefab, player2Hand.transform.position, player2Hand.transform.rotation, player2Hand.transform) as GameObject).GetComponent<ChangeDirectionCard>();
+        card.isPlayer1Owner = false;
+        player2Hand.AddCard(card);
+
+        card = (Instantiate(moveCardPrefab, player2Hand.transform.position, player2Hand.transform.rotation, player2Hand.transform) as GameObject).GetComponent<MoveCard>();
+        card.isPlayer1Owner = false;
+        player2Hand.AddCard(card);
     }
 
     IEnumerator EndRealTurn()

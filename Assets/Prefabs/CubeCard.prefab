@@ -338,7 +338,11 @@ MonoBehaviour:
   shouldBeScaledDown: 0
   hasCursorExitedCardTrigger: 0
   basePositionCard: {x: 0, y: 0, z: 0}
+  basePositionCardKeepZ: {x: 0, y: 0, z: 0}
   scaledPositionCard: {x: 0, y: 0, z: 0}
+  type: 0
+  cubeModel: {fileID: 4936211380890433205, guid: 17ec9e43d914515458fd974de1154fc0,
+    type: 3}
 --- !u!1 &5891447653763967905
 GameObject:
   m_ObjectHideFlags: 0

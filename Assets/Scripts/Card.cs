@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Card : MonoBehaviour
 {
-    public enum Type {RequiredLocation, NothingRequired};
+    public enum Type {RequiredLocation, RequireCardsSelection, NothingRequired};
     public bool isPlayer1Owner;
     public bool isDragging;
     public bool shouldBeScaledDown;
@@ -20,6 +20,8 @@ public class Card : MonoBehaviour
     public Vector3 scaledPositionCard;
 
     public Type type;
+
+    public bool isPermanent;
 
     public void realStart()
     {

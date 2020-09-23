@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CircleCard : Card
+public class DrawCard : Card
 {
     void Start()
     {
         realStart();
-        type = Type.RequiredLocation;
-        isPermanent = false;
+        type = Type.RequireCardsSelection;
+        isPermanent = true;
     }
 
     void FixedUpdate()
@@ -41,9 +41,9 @@ public class CircleCard : Card
        realOnMouseExit();
     }
 
-    public override void Effect(Vector3 location)
+   public override void Effect(Vector3 location)
     {
-        Debug.Log("s");
+       //model = Instantiate(cubeModel, new Vector3(location.x, location.y, location.z -0.3f), FindObjectOfType<GridBoard>().transform.rotation, FindObjectOfType<GridBoard>().transform) as GameObject;
     }
 
 }
